@@ -1,69 +1,17 @@
-﻿// ============================
-// 🌸 БУКЕТЫ
-// ============================
-
-const bouquets = [
-    {
-        id: "roses",
-        name: "🌹 Розы",
-        img: "assets/roses.jpg"
-    },
-    {
-        id: "tulips",
-        name: "🌷 Тюльпаны",
-        img: "assets/tulips.jpg"
-    },
-    {
-        id: "peonies",
-        name: "🌸 Пионы",
-        img: "assets/peonies.jpg"
-    }
-];
-
-// ============================
-// 🌸 ИНИЦИАЛИЗАЦИЯ БУКЕТОВ
-// ============================
-
-document.addEventListener("DOMContentLoaded", () => {
-    const wrap = document.getElementById("bouquets");
-    if (!wrap) return;
-
-    bouquets.forEach(b => {
-        const card = document.createElement("div");
-        card.className = "bouquet-card";
-
-        card.innerHTML = `
-            <img src="${b.img}" alt="${b.name}">
-            <p>${b.name}</p>
-        `;
-
-        card.onclick = () => {
-            document.getElementById("image").value = b.img;
-
-            // визуальный выбор
-            document.querySelectorAll(".bouquet-card")
-                .forEach(el => el.classList.remove("active"));
-
-            card.classList.add("active");
-        };
-
-        wrap.appendChild(card);
-    });
-});
-
-
-// ============================
-// 🌸 COMPRESSION (short links)
-// ============================
+// ==========================
+// 🌸 v6 CORE (SHORT LINKS + GIFT LOADER)
+// ==========================
 
 function compress(data) {
     const c = {};
+
     if (data.title) c.t = data.title;
     if (data.author) c.a = data.author;
     if (data.youtube) c.y = data.youtube;
     if (data.yandex) c.m = data.yandex;
     if (data.image) c.i = data.image;
     if (data.text) c.x = data.text;
+
     return c;
 }
 
@@ -83,20 +31,13 @@ function decode(str) {
     );
 }
 
-// ============================
-// 🔗 CREATE LINK
-// ============================
-
+// 🔗 СОЗДАНИЕ ССЫЛКИ (ИСПОЛЬЗУЕТСЯ В index.html)
 function createShareLink(data) {
     const clean = compress(data);
-    const encoded = encode(clean);
-    return `${location.origin}/gift.html#${encoded}`;
+    return location.origin + "/gift.html#" + encode(clean);
 }
 
-// ============================
-// 🎁 LOAD GIFT PAGE
-// ============================
-
+// 🎁 ЗАГРУЗКА ПОДАРКА (gift.html)
 function loadGift() {
     const hash = location.hash.slice(1);
     if (!hash) return;
@@ -126,3 +67,5 @@ function loadGift() {
         else ym.style.display = "none";
     }
 }
+
+window.addEventListener("load", loadGift);﻿
