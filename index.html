@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Bouquet</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+
+<div class="container">
+
+<header class="header">
+<h1>🌸 Music Bouquet</h1>
+<p>Создай музыкальный подарок</p>
+</header>
+
+<div class="form">
+
+<input id="title" placeholder="Название трека">
+<input id="author" placeholder="Автор / исполнитель">
+<textarea id="text" placeholder="Сообщение"></textarea>
+
+<input id="youtube" placeholder="YouTube ссылка">
+<input id="yandex" placeholder="Яндекс Музыка">
+<input id="image" placeholder="Картинка букета">
+
+<button id="createBtn">✨ Создать подарок</button>
+<button id="copyBtn">📋 Скопировать ссылку</button>
+
+<p id="result"></p>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+document.getElementById("createBtn").onclick = () => {
+
+    const data = {
+        title: title.value,
+        author: author.value,
+        text: text.value,
+        youtube: youtube.value,
+        yandex: yandex.value,
+        image: image.value
+    };
+
+    const link = createShareLink(data);
+
+    result.textContent = link;
+    window.generatedLink = link;
+};
+
+document.getElementById("copyBtn").onclick = () => {
+    navigator.clipboard.writeText(window.generatedLink || "");
+    alert("Ссылка скопирована");
+};
+</script>
+
+</body>
+</html>
