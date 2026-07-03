@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Bouquet - Создание подарка</title>
+<title>Music Bouquet</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -14,10 +14,10 @@
 
 <header class="header">
     <h1>🌸 Music Bouquet</h1>
-    <p>Создай музыкальный подарок за минуту</p>
+    <p>Создай музыкальный подарок</p>
 </header>
 
-<!-- 💐 ВЫБОР БУКЕТА -->
+<!-- 💐 БУКЕТЫ -->
 <div class="bouquet-grid">
 
     <div class="bouquet" data-bouquet="classic1">
@@ -50,19 +50,16 @@
 <div class="form">
 
     <input id="title" placeholder="Название трека">
-    <input id="author" placeholder="Автор / исполнитель">
-    <textarea id="text" placeholder="Тёплое сообщение"></textarea>
+    <input id="author" placeholder="Автор">
+    <textarea id="text" placeholder="Сообщение"></textarea>
 
     <input id="youtube" placeholder="YouTube ссылка">
-    <input id="yandex" placeholder="Яндекс Музыка ссылка">
+    <input id="yandex" placeholder="Яндекс Музыка">
 
-    <button id="createBtn">✨ Создать подарок</button>
+    <button id="createBtn">✨ Создать</button>
+    <button id="copyBtn">📋 Скопировать ссылку</button>
 
-    <button id="copyBtn" style="margin-top:10px;">
-        📋 Скопировать ссылку
-    </button>
-
-    <p id="result" style="word-break: break-all; margin-top:10px;"></p>
+    <p id="result"></p>
 
 </div>
 
@@ -71,11 +68,9 @@
 <script src="app.js"></script>
 
 <script>
-// =======================
-// 💐 выбор букета
-// =======================
 let selectedBouquet = null;
 
+/* 💐 ВЫБОР БУКЕТА */
 document.querySelectorAll(".bouquet").forEach(el => {
     el.addEventListener("click", () => {
 
@@ -88,31 +83,25 @@ document.querySelectorAll(".bouquet").forEach(el => {
     });
 });
 
-// =======================
-// 🔗 создание ссылки
-// =======================
+/* 🔗 СОЗДАНИЕ ССЫЛКИ */
 document.getElementById("createBtn").onclick = () => {
 
     const data = {
-        title: document.getElementById("title").value,
-        author: document.getElementById("author").value,
-        text: document.getElementById("text").value,
-        youtube: document.getElementById("youtube").value,
-        yandex: document.getElementById("yandex").value,
-
-        // 💐 ВАЖНО: берем букет, а не input
+        title: title.value,
+        author: author.value,
+        text: text.value,
+        youtube: youtube.value,
+        yandex: yandex.value,
         image: selectedBouquet
     };
 
     const link = createShareLink(data);
 
-    document.getElementById("result").textContent = link;
+    result.textContent = link;
     window.generatedLink = link;
 };
 
-// =======================
-// 📋 копирование
-// =======================
+/* 📋 КОПИРОВАНИЕ */
 document.getElementById("copyBtn").onclick = () => {
     navigator.clipboard.writeText(window.generatedLink || "");
     alert("Ссылка скопирована");
