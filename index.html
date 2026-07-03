@@ -1,49 +1,96 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Bouquet - Создание подарка</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Bouquet - Создание подарка</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body class="dark-theme">
 
 <div class="container">
 
-    <header class="header">
-        <h1>🌸 Music Bouquet</h1>
-        <p>Создай музыкальный подарок за минуту</p>
-    </header>
+<header class="header">
+    <h1>🌸 Music Bouquet</h1>
+    <p>Создай музыкальный подарок за минуту</p>
+</header>
 
-    <!-- ФОРМА -->
-    <div class="form">
+<!-- 💐 ВЫБОР БУКЕТА -->
+<div class="bouquet-grid">
 
-        <input id="title" placeholder="Название трека">
-        <input id="author" placeholder="Автор / исполнитель">
-        <textarea id="text" placeholder="Тёплое сообщение"></textarea>
-
-        <input id="youtube" placeholder="YouTube ссылка">
-        <input id="yandex" placeholder="Яндекс Музыка ссылка">
-        <input id="image" placeholder="URL картинки букета">
-
-        <button id="createBtn">✨ Создать подарок</button>
-
-        <button id="copyBtn" style="margin-top:10px;">
-            📋 Скопировать ссылку
-        </button>
-
-        <p id="result" style="word-break: break-all; margin-top:10px;"></p>
-
+    <div class="bouquet" data-bouquet="classic1">
+        <img src="images/bouquets/classic1.webp">
     </div>
+
+    <div class="bouquet" data-bouquet="classic2">
+        <img src="images/bouquets/classic2.webp">
+    </div>
+
+    <div class="bouquet" data-bouquet="elegant1">
+        <img src="images/bouquets/elegant1.webp">
+    </div>
+
+    <div class="bouquet" data-bouquet="elegant2">
+        <img src="images/bouquets/elegant2.webp">
+    </div>
+
+    <div class="bouquet" data-bouquet="romantic1">
+        <img src="images/bouquets/romantic1.webp">
+    </div>
+
+    <div class="bouquet" data-bouquet="romantic2">
+        <img src="images/bouquets/romantic2.webp">
+    </div>
+
+</div>
+
+<!-- 📝 ФОРМА -->
+<div class="form">
+
+    <input id="title" placeholder="Название трека">
+    <input id="author" placeholder="Автор / исполнитель">
+    <textarea id="text" placeholder="Тёплое сообщение"></textarea>
+
+    <input id="youtube" placeholder="YouTube ссылка">
+    <input id="yandex" placeholder="Яндекс Музыка ссылка">
+
+    <button id="createBtn">✨ Создать подарок</button>
+
+    <button id="copyBtn" style="margin-top:10px;">
+        📋 Скопировать ссылку
+    </button>
+
+    <p id="result" style="word-break: break-all; margin-top:10px;"></p>
+
+</div>
 
 </div>
 
 <script src="app.js"></script>
 
 <script>
+// =======================
+// 💐 выбор букета
+// =======================
+let selectedBouquet = null;
+
+document.querySelectorAll(".bouquet").forEach(el => {
+    el.addEventListener("click", () => {
+
+        document.querySelectorAll(".bouquet")
+            .forEach(b => b.classList.remove("active"));
+
+        el.classList.add("active");
+
+        selectedBouquet = el.dataset.bouquet;
+    });
+});
+
+// =======================
+// 🔗 создание ссылки
+// =======================
 document.getElementById("createBtn").onclick = () => {
 
     const data = {
@@ -52,16 +99,20 @@ document.getElementById("createBtn").onclick = () => {
         text: document.getElementById("text").value,
         youtube: document.getElementById("youtube").value,
         yandex: document.getElementById("yandex").value,
-        image: document.getElementById("image").value
+
+        // 💐 ВАЖНО: берем букет, а не input
+        image: selectedBouquet
     };
 
     const link = createShareLink(data);
 
     document.getElementById("result").textContent = link;
-
     window.generatedLink = link;
 };
 
+// =======================
+// 📋 копирование
+// =======================
 document.getElementById("copyBtn").onclick = () => {
     navigator.clipboard.writeText(window.generatedLink || "");
     alert("Ссылка скопирована");
