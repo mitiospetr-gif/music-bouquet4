@@ -16,6 +16,12 @@
 <p>Создай музыкальный подарок</p>
 </header>
 
+<!-- 🌸 ВЫБОР БУКЕТА -->
+<div class="section">
+  <h3>Выбери букет</h3>
+  <div id="bouquets" class="bouquets"></div>
+</div>
+
 <div class="form">
 
 <input id="title" placeholder="Название трека">
@@ -24,7 +30,9 @@
 
 <input id="youtube" placeholder="YouTube ссылка">
 <input id="yandex" placeholder="Яндекс Музыка">
-<input id="image" placeholder="Картинка букета">
+
+<!-- скрытое поле (сюда ставится букет) -->
+<input id="image" placeholder="Картинка букета" readonly>
 
 <button id="createBtn">✨ Создать подарок</button>
 <button id="copyBtn">📋 Скопировать ссылку</button>
@@ -41,17 +49,17 @@
 document.getElementById("createBtn").onclick = () => {
 
     const data = {
-        title: title.value,
-        author: author.value,
-        text: text.value,
-        youtube: youtube.value,
-        yandex: yandex.value,
-        image: image.value
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        text: document.getElementById("text").value,
+        youtube: document.getElementById("youtube").value,
+        yandex: document.getElementById("yandex").value,
+        image: document.getElementById("image").value
     };
 
     const link = createShareLink(data);
 
-    result.textContent = link;
+    document.getElementById("result").textContent = link;
     window.generatedLink = link;
 };
 
