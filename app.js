@@ -1,56 +1,80 @@
 // ==========================
-// 💐 выбор букета
+// 🔗 BASE ENCODE / DECODE
 // ==========================
-let selectedBouquet = null;
 
-document.querySelectorAll(".bouquet").forEach(el => {
-    el.addEventListener("click", () => {
+function encode(data) {
+    return btoa(encodeURIComponent(JSON.stringify(data)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
+}
 
-        document.querySelectorAll(".bouquet")
-            .forEach(b => b.classList.remove("active"));
-
-        el.classList.add("active");
-        selectedBouquet = el.dataset.bouquet;
-    });
-});
-
-
-// ==========================
-// 🔗 генерация ссылки
-// ==========================
-document.getElementById("createBtn").onclick = () => {
-
-    const data = {
-        title: document.getElementById("title").value,
-        author: document.getElementById("author").value,
-        text: document.getElementById("text").value,
-        youtube: document.getElementById("youtube").value,
-        yandex: document.getElementById("yandex").value,
-        image: selectedBouquet
-    };
-
-    const link = createShareLink(data);
-
-    document.getElementById("result").textContent = link;
-    window.generatedLink = link;
-};
-
+function decode(str) {
+    const pad = '='.repeat((4 - str.length % 4) % 4);
+    return JSON.parse(
+        decodeURIComponent(
+            atob((str + pad).replace(/-/g, '+').replace(/_/g, '/'))
+        )
+    );
+}
 
 // ==========================
-// 📋 копирование ссылки
+// 💐 CREATE SHARE DATA
 // ==========================
-document.getElementById("copyBtn").onclick = () => {
-    navigator.clipboard.writeText(window.generatedLink || "");
-    alert("Ссылка скопирована ✨");
-};
 
-
-// ==========================
-// 🔧 СОЗДАНИЕ ССЫЛКИ (ЕСЛИ НЕТ ЛОГИКИ)
-// ==========================
 function createShareLink(data) {
+    const clean = {};
 
-    const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+    if (data.title) clean.t = data.title;
+    if (data.author) clean.a = data.author;
+    if (data.text) clean.x = data.text;
+    if (data.youtube) clean.y = data.youtube;
+    if (data.yandex) clean.m = data.yandex;
+    if (data.image) clean.i = data.image; // bouquet id
 
-    return `${window.location.origin}/gift.html#${encoded}`;
-}﻿
+    const encoded = encode(clean);
+
+    return location.origin + "/gift.html#" + encoded;
+}
+
+// ==========================
+// 🎁 LOAD GIFT PAGE
+// ==========================
+
+function loadGift() {
+    const hash = location.hash.slice(1);
+    if (!hash) return;
+
+    const data = decode(hash);
+
+    const el = (id) => document.getElementById(id);
+
+    if (el("greetingText")) el("greetingText").textContent = data.x || "";
+    if (el("trackName")) el("trackName").textContent = data.t || "";
+    if (el("authorText")) el("authorText").textContent = data.a || "";
+
+    // 💐 bouquet image FIX
+    if (data.i && el("bouquetImage")) {
+        el("bouquetImage").src = `images/bouquets/${data.i}.webp`;
+    }
+
+    // 🔗 links
+    const yt = el("youtubeBtn");
+    const ym = el("yandexBtn");
+
+    if (yt) {
+        if (data.y) yt.href = data.y;
+        else yt.style.display = "none";
+    }
+
+    if (ym) {
+        if (data.m) ym.href = data.m;
+        else ym.style.display = "none";
+    }
+}
+
+// ==========================
+// 🚀 INIT
+// ==========================
+
+window.addEventListener("load", loadGift);
