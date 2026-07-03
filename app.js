@@ -1,4 +1,4 @@
-// ==========================
+﻿// ==========================
 // 🌸 v6 CORE (SHORT LINKS + GIFT LOADER)
 // ==========================
 
@@ -68,4 +68,45 @@ function loadGift() {
     }
 }
 
-window.addEventListener("load", loadGift);﻿
+window.addEventListener("load", loadGift);
+```
+
+---
+
+# 💛 2. `gift.html` (ЗАМЕНИ ПОЛНОСТЬЮ)
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подарок</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+
+<div class="gift-container">
+
+    <img id="bouquetImage" class="bouquet-image" src="" alt="bouquet">
+
+    <h2>Для тебя 💛</h2>
+
+    <p id="greetingText"></p>
+    <h3 id="trackName"></h3>
+
+    <div class="links">
+        <a id="youtubeBtn" target="_blank">YouTube</a>
+        <a id="yandexBtn" target="_blank">Яндекс Музыка</a>
+    </div>
+
+    <p id="authorText"></p>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
