@@ -7,47 +7,6 @@
 
 <link rel="stylesheet" href="style.css"/>
 
-<style>
-/* Минимально чтобы точно работало даже без CSS файла */
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #fafafa;
-}
-
-h1 {
-  margin-top: 20px;
-}
-
-.bouquet-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.bouquet-card {
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.bouquet-card:hover {
-  transform: scale(1.03);
-}
-
-.bouquet-card img {
-  width: 100%;
-  border-radius: 10px;
-  display: block;
-}
-</style>
-
 </head>
 
 <body>
@@ -57,17 +16,17 @@ h1 {
 <div class="bouquet-grid">
 
   <div class="bouquet-card" data-bouquet="classic1">
-    <img src="images/bouquets/classic1.webp" alt="classic1">
+    <img src="images/bouquets/classic1.webp" alt="">
     <p>Классический 1</p>
   </div>
 
   <div class="bouquet-card" data-bouquet="classic2">
-    <img src="images/bouquets/classic2.webp" alt="classic2">
+    <img src="images/bouquets/classic2.webp" alt="">
     <p>Классический 2</p>
   </div>
 
   <div class="bouquet-card" data-bouquet="elegant1">
-    <img src="images/bouquets/elegant1.webp" alt="elegant1">
+    <img src="images/bouquets/elegant1.webp" alt="">
     <p>Элегантный</p>
   </div>
 
