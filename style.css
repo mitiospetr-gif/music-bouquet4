@@ -509,3 +509,32 @@ body {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+.bouquets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.bouquet-card {
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 2px solid transparent;
+}
+
+.bouquet-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.bouquet-card:hover {
+    transform: scale(1.03);
+}
+
+.bouquet-card.active {
+    border: 2px solid #ff4da6;
+}
