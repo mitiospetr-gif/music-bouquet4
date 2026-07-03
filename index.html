@@ -6,71 +6,76 @@
 <title>Music Bouquet</title>
 
 <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
-<body class="dark-theme">
+<body>
 
 <div class="container">
 
-<header class="header">
-    <h1>🌸 Music Bouquet</h1>
-    <p>Создай музыкальный подарок</p>
-</header>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>🌸 Music Bouquet</h1>
+        <p>Создай музыкальный подарок как в приложении</p>
+    </header>
 
-<!-- 💐 БУКЕТЫ -->
-<div class="bouquet-grid">
+    <!-- 💐 BOUQUETS -->
+    <div class="bouquet-grid">
 
-    <div class="bouquet" data-bouquet="classic1">
-        <img src="images/bouquets/classic1.webp">
+        <div class="bouquet" data-bouquet="classic1">
+            <img src="images/bouquets/classic1.webp">
+        </div>
+
+        <div class="bouquet" data-bouquet="classic2">
+            <img src="images/bouquets/classic2.webp">
+        </div>
+
+        <div class="bouquet" data-bouquet="elegant1">
+            <img src="images/bouquets/elegant1.webp">
+        </div>
+
+        <div class="bouquet" data-bouquet="elegant2">
+            <img src="images/bouquets/elegant2.webp">
+        </div>
+
+        <div class="bouquet" data-bouquet="romantic1">
+            <img src="images/bouquets/romantic1.webp">
+        </div>
+
+        <div class="bouquet" data-bouquet="romantic2">
+            <img src="images/bouquets/romantic2.webp">
+        </div>
+
     </div>
 
-    <div class="bouquet" data-bouquet="classic2">
-        <img src="images/bouquets/classic2.webp">
+    <!-- FORM -->
+    <div class="form">
+
+        <input id="title" placeholder="Название трека">
+        <input id="author" placeholder="Автор / исполнитель">
+        <textarea id="text" placeholder="Тёплое сообщение"></textarea>
+
+        <input id="youtube" placeholder="YouTube ссылка">
+        <input id="yandex" placeholder="Яндекс Музыка">
+
+        <button id="createBtn">✨ Создать подарок</button>
+        <button id="copyBtn">📋 Скопировать ссылку</button>
+
+        <p id="result"></p>
+
     </div>
-
-    <div class="bouquet" data-bouquet="elegant1">
-        <img src="images/bouquets/elegant1.webp">
-    </div>
-
-    <div class="bouquet" data-bouquet="elegant2">
-        <img src="images/bouquets/elegant2.webp">
-    </div>
-
-    <div class="bouquet" data-bouquet="romantic1">
-        <img src="images/bouquets/romantic1.webp">
-    </div>
-
-    <div class="bouquet" data-bouquet="romantic2">
-        <img src="images/bouquets/romantic2.webp">
-    </div>
-
-</div>
-
-<!-- 📝 ФОРМА -->
-<div class="form">
-
-    <input id="title" placeholder="Название трека">
-    <input id="author" placeholder="Автор">
-    <textarea id="text" placeholder="Сообщение"></textarea>
-
-    <input id="youtube" placeholder="YouTube ссылка">
-    <input id="yandex" placeholder="Яндекс Музыка">
-
-    <button id="createBtn">✨ Создать</button>
-    <button id="copyBtn">📋 Скопировать ссылку</button>
-
-    <p id="result"></p>
-
-</div>
 
 </div>
 
 <script src="app.js"></script>
 
 <script>
+
+// ==========================
+// 💐 SELECT BOUQUET
+// ==========================
 let selectedBouquet = null;
 
-/* 💐 ВЫБОР БУКЕТА */
 document.querySelectorAll(".bouquet").forEach(el => {
     el.addEventListener("click", () => {
 
@@ -83,29 +88,34 @@ document.querySelectorAll(".bouquet").forEach(el => {
     });
 });
 
-/* 🔗 СОЗДАНИЕ ССЫЛКИ */
+// ==========================
+// 🔗 CREATE LINK
+// ==========================
 document.getElementById("createBtn").onclick = () => {
 
     const data = {
-        title: title.value,
-        author: author.value,
-        text: text.value,
-        youtube: youtube.value,
-        yandex: yandex.value,
+        title: document.getElementById("title").value,
+        author: document.getElementById("author").value,
+        text: document.getElementById("text").value,
+        youtube: document.getElementById("youtube").value,
+        yandex: document.getElementById("yandex").value,
         image: selectedBouquet
     };
 
     const link = createShareLink(data);
 
-    result.textContent = link;
+    document.getElementById("result").textContent = link;
     window.generatedLink = link;
 };
 
-/* 📋 КОПИРОВАНИЕ */
+// ==========================
+// 📋 COPY LINK
+// ==========================
 document.getElementById("copyBtn").onclick = () => {
     navigator.clipboard.writeText(window.generatedLink || "");
-    alert("Ссылка скопирована");
+    alert("Ссылка скопирована ✨");
 };
+
 </script>
 
 </body>
