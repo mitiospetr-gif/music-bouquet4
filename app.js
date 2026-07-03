@@ -1,24 +1,10 @@
-﻿// ============================
-// 🔐 СЖАТИЕ ДАННЫХ
-// ============================
-
-function compress(data) {
-    const clean = {};
-
-    // короткие ключи
-    if (data.title) clean.t = data.title;
-    if (data.author) clean.a = data.author;
-    if (data.youtube) clean.y = data.youtube;
-    if (data.yandex) clean.m = data.yandex;
-    if (data.image) clean.i = data.image;
-    if (data.text) clean.x = data.text;
-
-    return clean;
-}
+﻿
+// ==========================
+// 🔗 BASE ENCODE / DECODE
+// ==========================
 
 function encode(data) {
-    const json = JSON.stringify(data);
-    return btoa(encodeURIComponent(json))
+    return btoa(encodeURIComponent(JSON.stringify(data)))
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=/g, '');
@@ -26,23 +12,35 @@ function encode(data) {
 
 function decode(str) {
     const pad = '='.repeat((4 - str.length % 4) % 4);
-    const base64 = (str + pad).replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(decodeURIComponent(atob(base64)));
+    return JSON.parse(
+        decodeURIComponent(
+            atob((str + pad).replace(/-/g, '+').replace(/_/g, '/'))
+        )
+    );
 }
 
-// ============================
-// 🔗 СОЗДАНИЕ ССЫЛКИ
-// ============================
+// ==========================
+// 💐 CREATE SHARE DATA
+// ==========================
 
 function createShareLink(data) {
-    const compressed = compress(data);
-    const encoded = encode(compressed);
-    return `${location.origin}/gift.html#${encoded}`;
+    const clean = {};
+
+    if (data.title) clean.t = data.title;
+    if (data.author) clean.a = data.author;
+    if (data.text) clean.x = data.text;
+    if (data.youtube) clean.y = data.youtube;
+    if (data.yandex) clean.m = data.yandex;
+    if (data.image) clean.i = data.image; // bouquet id
+
+    const encoded = encode(clean);
+
+    return location.origin + "/gift.html#" + encoded;
 }
 
-// ============================
-// 📥 ЗАГРУЗКА ПОДАРКА
-// ============================
+// ==========================
+// 🎁 LOAD GIFT PAGE
+// ==========================
 
 function loadGift() {
     const hash = location.hash.slice(1);
@@ -50,33 +48,34 @@ function loadGift() {
 
     const data = decode(hash);
 
-    document.getElementById('greetingText').textContent = data.x || '';
-    document.getElementById('trackName').textContent = data.t || '';
-    document.getElementById('authorText').textContent = data.a ? `— ${data.a}` : '';
+    const el = (id) => document.getElementById(id);
 
-    // картинка
-    if (data.i) {
-        document.getElementById('bouquetImage').src = data.i;
+    if (el("greetingText")) el("greetingText").textContent = data.x || "";
+    if (el("trackName")) el("trackName").textContent = data.t || "";
+    if (el("authorText")) el("authorText").textContent = data.a || "";
+
+    // 💐 bouquet image FIX
+    if (data.i && el("bouquetImage")) {
+        el("bouquetImage").src = `images/bouquets/${data.i}.webp`;
     }
 
-    // ссылки
-    const yt = document.getElementById('youtubeBtn');
-    const ym = document.getElementById('yandexBtn');
+    // 🔗 links
+    const yt = el("youtubeBtn");
+    const ym = el("yandexBtn");
 
-    if (data.y) {
-        yt.href = data.y;
-        yt.style.display = 'inline-flex';
-    } else {
-        yt.style.display = 'none';
+    if (yt) {
+        if (data.y) yt.href = data.y;
+        else yt.style.display = "none";
     }
 
-    if (data.m) {
-        ym.href = data.m;
-        ym.style.display = 'inline-flex';
-    } else {
-        ym.style.display = 'none';
+    if (ym) {
+        if (data.m) ym.href = data.m;
+        else ym.style.display = "none";
     }
 }
 
-// запуск
-loadGift();
+// ==========================
+// 🚀 INIT
+// ==========================
+
+window.addEventListener("load", loadGift);
